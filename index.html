@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.66.0" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 引入Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <!-- 引入jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- 引入Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/skeleton.css">
+  <link rel="stylesheet" href="../css/custom.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="alternate" href="index.xml" type="application/rss+xml" title="Speech Research">
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+  <style>
+    body {
+      font-size: 20px; /* 设置默认字体大小 */
+
+    }
+    .table-container {
+      overflow-x: auto;
+      /* width:120%; */
+      margin: 0 auto;
+
+    }
+    /* .video-container {
+      position: relative;
+      width: 600px;
+      margin: 0 auto;
+      padding-bottom: 56.25%; /* 16:9宽高比，调整此值适配其他比例的视频 */
+      /* overflow: hidden;
+    }
+
+    /* 视频元素的样式 */
+    /* .video-container video {
+      /* position: absolute; */
+      /* top: 0;
+      left: 0;
+      width: 600px; */
+      /* height: 100%; */
+
+      video {
+      width: 640px; /* 设置视频宽度 */
+      height: 360px; /* 设置视频高度 */
+    }
+    @media(min-width:1200px){
+      .table-container {
+      overflow-x: auto;
+      width:120%;
+      margin: 0 auto;
+
+    }
+    }
+    @media (max-width: 600px) {
+      /* 在手机屏幕上应用以下样式 */
+      body {
+        font-size: 14px; /* 缩小字体大小 */
+      }
+      h1 {
+        font-size: 22px; /* 缩小标题字体大小 */
+      }
+      h2 {
+        font-size: 18px; /* 缩小标题字体大小 */
+      }
+      nav ul li {
+        display: block; /* 列表项显示为块级元素，方便手机点击 */
+      }
+      .video-container {
+        padding-bottom: 75%; /* 4:3宽高比，调整此值适配其他比例的视频 */
+      }
+      video {
+      width: 400px; /* 设置视频宽度 */
+      /* height: 360px; 设置视频高度 */
+      }
+    }
+  </style>
+  <title>AudioLDM: Text-to-Audio Generation with Latent Diffusion Models - Speech Research</title>
+</head>
+
+<body rightmargin="150" leftmargin="150" topmargin="100" bottommargin="100" line-height:160%>
+  <!-- <font size="5"> -->
+
+    <div class="container">
+
+      <header role="banner">
+
+      </header>
+      <main role="main">
+        <article itemscope itemtype="https://schema.org/BlogPosting">
+          <br></br>
+          <h1 itemprop="headline" align="center">
+            <font color="000093">AudioLDM 2: A General Framework 
+              for Audio, Music, and Speech  Generation
+
+            </font>
+          </h1>
+          <br></br>
+          <p style="line-height:1" align="center"><b>
+              <font color="061E61">Haohe Liu<sup>*1,2</sup>, Qiao Tian<sup>2</sup>,Yi Yuan<sup>1</sup>, Xubo Liu<sup>1</sup>, Xinhao
+                Mei<sup>1</sup>,Qiuqiang Kong<sup>3</sup>
+              </font>
+            </b></p>
+          <p style="line-height:1" align="center"><b>
+              <font color="061E61">
+
+                Yuping Wang<sup>2</sup>,
+                Wenwu Wang<sup>1</sup>,
+                Yuxuan Wang<sup>2</sup>,
+                Mark D. Plumbley<sup>1</sup>
+              </font>
+            </b></p>
+          <p style="line-height:0.6" align="center">
+            <font color="061E61"><sup>1</sup>CVSSP, University of Surrey, Guildford, UK</font>
+          </p>
+          <p style="line-height:0.6" align="center">
+            <font color="061E61"> <sup>2</sup>Speech, Audio & Music Intelligence (SAMI), ByteDance</font>
+          </p>
+          <p style="line-height:0.6" align="center">
+            <font color="061E61"> <sup>3</sup>The Chinese University of Hong Kong</font>
+          </p>
+          <p style="line-height:1" align="center">
+            <font color="061E61"><sup>*</sup>Corresponding author</font>
+          </p>
+          <section itemprop="entry-text">
+            <br>
+            <div class="container">
+              <center>
+                <p><a href="https://arxiv.org/abs/2301.12503">[Paper on ArXiv]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/haoheliu/audioldm2">[Code on GitHub]</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                <!-- <p><a href="https://arxiv.org/abs/2301.12503">[Paper on ArXiv]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/haoheliu/AudioLDM">[Code on GitHub]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://huggingface.co/spaces/haoheliu/audioldm-text-to-audio-generation">[Hugging Face Space]</a></p> -->
+              </center>
+            </div>
+            <h2 id="abstract">
+              <font color="000093">Abstract</font>
+            </h2>
+            <p style="text-align: justify;">
+              <font color="061E61"> Although audio generation shares commonalities across different types of audio, such as speech, music, and sound effects, 
+                designing models for each type requires careful consideration of unique objectives and biases that can significantly differ from those of other types. 
+                To bring us closer to a unified perspective of audio generation, this paper proposes a framework that utilizes the same learning method for speech, music, and sound effect generation. 
+                Our framework introduces a generic representation of audio, which can be treated as a new "<i>language of audio</i>" and used as a proxy for audio generation. 
+                For any conditional input, we first translate it into the "<i>language of audio</i>" with a language model, followed by a model that performs audio synthesis with a latent diffusion model based on the audio language. 
+                The proposed framework naturally brings advantages such as a reusable self-supervised pretrained model and in-context learning abilities. 
+                Experiments on the major benchmarks of text-to-audio (TTA), text-to-music (TTM), and text-to-speech (TTS) demonstrate new state-of-the-art or competitive performance to previous approaches. 
+              </font>
+            </p>
+
+            <h2 id="note">
+              <font color="000093">Note</font>
+            </h2>
+            <li>
+              <font color="061E61"> Not only an upgraded version of AudioLDM, AudioLDM2 is a novel and versatile audio generation framework that breaks the barrier 
+                and unifies the learning of audio, music, and speech generation. The proposed method is based on a universal representation of audio and combines both the advantages of the auto-regressive model and the latent diffusion model. </font>
+            </li>
+            <li>
+              <font color="061E61"> AudioLDM2 achieves state-of-the-art performance in text-to-audio and text-to-music generation, while also delivering competitive results in text-to-speech generation, comparable to the current SoTA. </font>
+            </li>
+            <!-- <li>
+              <font color="061E61"> AudioLDM enables zero-shot text-guided audio style-transfer, inpainting, and
+                super-resolution.</font>
+            </li> -->
+
+            <br></br>
+            <figure>
+              <p align="center"><img src="MainFigure.jpg" width="100%" class="center" /></p>
+              <figcaption>
+                <p style="text-align: justify;">
+                  <font color="061E61"><b>Figure 1:</b> The overview of the AudioLDM2 architecture. The AudioMAE feature is a proxy that bridges the audio semantic language model stage (GPT-2) 
+                    and the semantic reconstruction stage (latent diffusion model). The probabilistic switcher controls the probability of the latent diffusion model using the ground truth AudioMAE ($P_{gt}$) 
+                    and the GPT-2 generated AudioMAE feature ($P_{pred}$) as the condition.
+                </p>
+              </figcaption>
+            </figure>
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <th scope="col" width="50%">
+                    <font color="061E61">One-minute snapshot of this framework</font>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <!-- <th><embed src="Sound Effects.mp4" autostart="false" width="35%" /></th> -->
+                  <th>
+                    <center>
+                      <video controls>
+                        <source src="Overview.mp4" type="video/mp4">
+                        Your browser does not support HTML video.
+                      </video>
+                      <p>The following sections show more demos.</p>
+                    </center>
+                    
+                  </th>
+                  
+                </tr>
+              </tbody>
+            </table>
+            
+
+            <!--
+<br></br>
+<h2 id="audio-samples"><font color="000093">Audio Samples</font></h2>
+<p><font color="061E61"> Our method is shown in Figure 1. The below audio samples show the comparison between Recordings, ground-truth (GT) mel + Vocoder, FastSpeech 2, DiffGAN-TTS, DiffSpeech, ProDiff, GradTTS, ResGrad-4 (Our method), and ResGrad-50 (Our method). Three samples are randomly selected from the test dataset of LJSpeech, LibriTTS, and VCTK. Details are illustrated as follows: </font></p>
+<ul style="list-style-type:square">
+-->
+            <!--
+<li><font color="061E61"> For each dataset, the same HiFi-GAN vocoder pretrained on GT mel is used for all methods. </font></li>
+-->
+            <!--<li>
+<font color="061E61"> Each generated sample has been normalized, and the raw recording is shown in Recordings. </font></li>
+-->
+            <!--<li>
+<li><font color="061E61"> Our method ResGrad uses FastSpeech 2 as the initial predictor for estimating mel-spectrogram. </font></li>
+-->
+
+
+            <br></br>
+            <h2 id="TTA Generation with Text Prompt Generated by ChatGPT">
+              <font color="000093">TTA Generation with Text Prompt Generated by ChatGPT</font>
+            </h2>
+
+            <p><b>
+                <font color="061E61">Samples for natural sounds:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">Gentle waves lapping against the sandy shore.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A distant thunderstorm rumbling softly.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/Gentle_waves_lapping_against_the_sandy_shore..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/tta/A_distant_thunderstorm_rumbling_softly..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">The crackling of a cozy fireplace.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">The splashing of water in a pond.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/The_crackling_of_a_cozy_fireplace..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/tta/The_splashing_of_water_in_a_pond..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+              <p><b>
+                <font color="061E61">Samples for animal sounds:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A bird is chirping in the morning sun.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A horse hooves trotting on a dirt path.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/A_bird_s_chirp_greeting_the_morning_sun..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/tta/A_horse_s_hooves_trotting_on_a_dirt_path..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">Bees buzzing among colorful wildflowers.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">Bells jingling as a horse-drawn carriage passes by.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/Bees_buzzing_among_colorful_wildflowers..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/tta/Bells_jingling_as_a_horse-drawn_carriage_passes_by..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+
+                <p><b>
+                  <font color="061E61">Samples for daily-machine sounds:</font>
+                </b></p>
+
+              <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+                <thead>
+                  <tr>
+                    <td scope="col" width="33%">
+                      <font color="061E61">A coffee machine brewing a fresh cup.</font>
+                    </td>
+                    <td scope="col" width="33%">
+                      <font color="061E61">A ticking clock on the wall.</font>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td scope="row"><audio controls="controls">
+                        <source src="demos/tta/A_coffee_machine_brewing_a_fresh_cup..wav"
+                          autoplay />Your browser does not support the audio element.
+                      </audio></td>
+                    <td><audio controls="controls">
+                        <source
+                          src="demos/tta/A_ticking_clock_on_the_wall..wav"
+                          autoplay />Your browser does not support the audio element.
+                      </audio></td>
+
+                  </tr>
+                </tbody>
+                <thead>
+                  <tr>
+                    <td scope="col" width="33%">
+                      <font color="061E61">An old-fashioned typewriter clacking.</font>
+                    </td>
+                    <td scope="col" width="33%">
+                      <font color="061E61">Coins dropping into a vending machine.</font>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td scope="row"><audio controls="controls">
+                        <source src="demos/tta/An_old-fashioned_typewriter_clacking..wav"
+                          autoplay />Your browser does not support the audio element.
+                      </audio></td>
+                    <td><audio controls="controls">
+                        <source
+                          src="demos/tta/Coins_dropping_into_a_vending_machine..wav"
+                          autoplay />Your browser does not support the audio element.
+                      </audio></td>
+
+                  </tr>
+                </tbody>
+              </table>
+
+              <p><b>
+                <font color="061E61">Samples for daily-object sounds:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A door creaking open slowly.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">Angry kids smashing a glass.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/A_door_creaking_open_slowly..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/tta/Angry_kids_smashing_a_glass.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+
+              <p><b>
+                <font color="061E61">Samples for acoustic background sounds:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A music is made by audience applausing</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">An excited crowd cheering at a sports game</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/A_music_is_made_by_a_audience_applausing.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/tta/An_excited_crowd_cheering_at_a_sports_game..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+
+                <p><b>
+                <font color="061E61">Samples for long and complex sounds:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A monkey laughs before getting hit on the head then a large atomic bomb explode. </font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/A_monkey_laughs_before_getting_hit_on_the_head_by_a_large_atomic_bomb.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            <br></br>
+            <h2 id="TTA Generation with Text Prompt Generated by ChatGPT">
+              <font color="000093">TTM Generation with Text Prompt Generated by ChatGPT</font>
+            </h2>
+
+            <p><b>
+                <font color="061E61">Samples for jazz music:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A brass band playing a lively New Orleans jazz parad.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A jazzy trumpet improvising with flair.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/ttm/A_brass_band_playing_a_lively_New_Orleans_jazz_parade,_infusing_the_streets_with_vibrant_music..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/ttm/A_jazzy_trumpet_improvising_with_flair,_its_playful_and_soulful_notes_sending_sparks_of_creativity_into_the_air..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+              <p><b>
+                <font color="061E61">Samples for hip-pop:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A contemporary hip-hop beat with smooth rhymes and catchy hooks.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A modern hip-hop beat with punchy bass and rapid-fire lyrics,.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/ttm/A_contemporary_hip-hop_beat_with_smooth_rhymes_and_catchy_hooks,_expressing_urban_culture_and_identity..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/ttm/A_modern_hip-hop_beat_with_punchy_bass_and_rapid-fire_lyrics,_reflecting_urban_life_and_culture..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+
+                <p><b>
+                  <font color="061E61">Samples for symphony:</font>
+                </b></p>
+
+              <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+                <thead>
+                  <tr>
+                    <td scope="col" width="33%">
+                      <font color="061E61">A classical orchestra performing a grand symphony.</font>
+                    </td>
+                    <td scope="col" width="33%">
+                      <font color="061E61">An enchanting classical orchestra performing a grand symphony.</font>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td scope="row"><audio controls="controls">
+                        <source src="demos/ttm/A_classical_orchestra_performing_a_grand_symphony..wav"
+                          autoplay />Your browser does not support the audio element.
+                      </audio></td>
+                    <td><audio controls="controls">
+                        <source
+                          src="demos/ttm/An_enchanting_classical_orchestra_performing_a_grand_symphony,_with_sweeping_strings,_majestic_brass,_and_delicate_woodwinds_transporting_the_audience_to_distant_realms_of_emotion..wav"
+                          autoplay />Your browser does not support the audio element.
+                      </audio></td>
+
+                  </tr>
+                </tbody>
+              </table>
+
+              <p><b>
+                <font color="061E61">Samples for pop music:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A funky bass guitar grooving in sync with drums.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">The rhythmic tapping of drumsticks on a snare drum.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/ttm/A_funky_bass_guitar_grooving_in_sync_with_drums,_adding_a_dose_of_funk_and_groove_to_the_music..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/ttm/The_rhythmic_tapping_of_drumsticks_on_a_snare_drum,_building_anticipation_and_driving_the_energy_of_a_lively_percussive_ensemble..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+
+            <p><b>
+              <font color="061E61">Samples for rock music:</font>
+            </b></p>
+
+          <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+            <thead>
+              <tr>
+                <td scope="col" width="33%">
+                  <font color="061E61">An electric guitar shredding a rock and roll riff.</font>
+                </td>
+                <td scope="col" width="33%">
+                  <font color="061E61">The raw power of a heavy metal guitar solo.</font>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row"><audio controls="controls">
+                    <source src="demos/ttm/An_electric_guitar_shredding_a_rock__n__roll_riff..wav"
+                      autoplay />Your browser does not support the audio element.
+                  </audio></td>
+                <td><audio controls="controls">
+                    <source
+                      src="demos/ttm/The_raw_power_of_a_heavy_metal_guitar_solo..wav"
+                      autoplay />Your browser does not support the audio element.
+                  </audio></td>
+
+              </tr>
+            </tbody>
+          </table>
+
+              <p><b>
+                <font color="061E61">Samples for traditional instrument:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">The delicate plucking of a Chinese guzheng</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A melodic flute floating over a serene backdrop.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/ttm/The_delicate_plucking_of_a_Chinese_guzheng,_weaving_a_traditional_tapestry_of_melodies..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/ttm/A_melodic_flute_floating_over_a_serene_backdrop..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+
+            <p><b>
+              <font color="061E61">Samples for traditional music:</font>
+            </b></p>
+
+          <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+            <thead>
+              <tr>
+                <td scope="col" width="33%">
+                  <font color="061E61">The intricate fingerstyle playing of a Spanish flamenco guitarist</font>
+                </td>
+                <td scope="col" width="33%">
+                  <font color="061E61">A traditional Irish fiddle playing a lively reel</font>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row"><audio controls="controls">
+                    <source src="demos/ttm/The_intricate_fingerstyle_playing_of_a_Spanish_flamenco_guitarist,_capturing_the_passion_of_Andalusia..wav"
+                      autoplay />Your browser does not support the audio element.
+                  </audio></td>
+                <td><audio controls="controls">
+                    <source
+                      src="demos/ttm/A_traditional_Irish_fiddle_playing_a_lively_reel,_inviting_feet_to_dance_along_to_its_spirited_tune..wav"
+                      autoplay />Your browser does not support the audio element.
+                  </audio></td>
+
+              </tr>
+            </tbody>
+          </table>
+
+              <p><b>
+                <font color="061E61">Samples for ambient music:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">The vibrant beat of Brazilian samba drums</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">The lively accordion playing at a European_festival.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/ttm/The_vibrant_beat_of_Brazilian_samba_drums,_inspiring_movement_and_rhythm..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/ttm/The_lively_accordion_playing_at_a_European_festival..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+              <p><b>
+                <font color="061E61">Samples for piano:</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A grand piano performing a romantic concerto</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">The soothing sound of a piano playing a nocturne</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/ttm/A_grand_piano_performing_a_romantic_concerto,_its_powerful_and_emotive_performance_filling_the_concert_hall..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/ttm/The_soothing_sound_of_a_piano_playing_a_nocturne,_its_delicate_notes_dancing_like_moonlight_on_water,_conjuring_a_sense_of_serenity..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                  </tr>
+                </tbody>
+              </table>
+
+
+
+
+            <br></br>
+            <h2 id="TTS Generation on LJSpeech">
+              <font color="000093">TTS Generation on LJSpeech</font>
+            </h2>
+
+            <!-- <p><b>
+                <font color="061E61">Short Samples:</font>
+              </b></p> -->
+            <div class = "table-container">
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <th scope="col" width="260px">
+                    <font color="061E61">Speech</font>
+                  </th>
+                  <th scope="col" width="260px">
+                    <font color="061E61">Ground-Truth</font>
+                  </th>
+                  <th scope="col" width="260px">
+                    <font color="061E61">AudioLDM2</font>
+                  </th>
+                  <th scope="col" width="260px">
+                    <font color="061E61">AudioMAE-restruction</font>
+                  </th>
+                  <th scope="col" width="260px">
+                    <font color="061E61">FastSpeech2</font>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>The prisoners were in due course transferred to Newgate, to be put upon their trial at the Central Criminal Court.</th>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/groundtruth/LJ014-0121.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/audioldm2/LJ014-0121.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/restruction/LJ014-0121.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/fastspeech/LJ014-0121.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+                <tr>
+                  <td>Calcraft served the city of London till eighteen seventy-four, when he was pensioned at the rate of twenty-five shillings per week.</th>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/groundtruth/LJ016-0241.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/audioldm2/LJ016-0241.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/restruction/LJ016-0241.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/fastspeech/LJ016-0241.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+                <tr>
+                  <td>The preference given to the Pentonville system destroyed all hopes of a complete reformation of Newgate.</th>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/groundtruth/LJ019-0202.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/audioldm2/LJ019-0202.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/restruction/LJ019-0202.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/fastspeech/LJ019-0202.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+                <tr>
+                  <td>They should not be confused with slowness, indecision or fear. Only the intellectually fearless could even be remotely attracted to our doctrine.</th>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/groundtruth/LJ042-0194.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/audioldm2/LJ042-0194.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/restruction/LJ042-0194.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/fastspeech/LJ042-0194.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+                <tr>
+                  <td>In eighteen ninety-four,</th>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/groundtruth/LJ049-0154.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/audioldm2/LJ049-0154.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/restruction/LJ049-0154.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                    <td><audio controls="controls">
+                      <source
+                        src="demos/tts/fastspeech/LJ049-0154.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+              </tbody>
+            </table>
+
+            </div>
+
+            <br></br>
+            <h2 id="In-context Learning">
+              <font color="000093">In-context Learning</font>
+            </h2>
+
+            <p><b>
+                <font color="061E61">In-context learning on audio</font>
+              </b></p>
+
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <td scope="col" width="33%">
+                    <font color="061E61">Gentle waves lapping against the sandy shore.</font>
+                  </td>
+                  <td scope="col" width="33%">
+                    <font color="061E61">A distant thunderstorm rumbling softly.</font>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row"><audio controls="controls">
+                      <source src="demos/tta/Gentle_waves_lapping_against_the_sandy_shore..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source
+                        src="demos/tta/A_distant_thunderstorm_rumbling_softly..wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+
+                </tr>
+              </tbody>
+            </table>
+
+
+            <p><b>
+              <font color="061E61">In-context learning on music</font>
+            </b></p>
+
+          <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+            <thead>
+              <tr>
+                <td scope="col" width="33%">
+                  <font color="061E61">Gentle waves lapping against the sandy shore.</font>
+                </td>
+                <td scope="col" width="33%">
+                  <font color="061E61">A distant thunderstorm rumbling softly.</font>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row"><audio controls="controls">
+                    <source src="demos/tta/Gentle_waves_lapping_against_the_sandy_shore..wav"
+                      autoplay />Your browser does not support the audio element.
+                  </audio></td>
+                <td><audio controls="controls">
+                    <source
+                      src="demos/tta/A_distant_thunderstorm_rumbling_softly..wav"
+                      autoplay />Your browser does not support the audio element.
+                  </audio></td>
+
+              </tr>
+            </tbody>
+          </table>
+          <p><b>
+            <font color="061E61">In-context learning on speech</font>
+          </b></p>
+
+        <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+          <thead>
+            <tr>
+              <td scope="col" width="33%">
+                <font color="061E61">Gentle waves lapping against the sandy shore.</font>
+              </td>
+              <td scope="col" width="33%">
+                <font color="061E61">A distant thunderstorm rumbling softly.</font>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row"><audio controls="controls">
+                  <source src="demos/tta/Gentle_waves_lapping_against_the_sandy_shore..wav"
+                    autoplay />Your browser does not support the audio element.
+                </audio></td>
+              <td><audio controls="controls">
+                  <source
+                    src="demos/tta/A_distant_thunderstorm_rumbling_softly..wav"
+                    autoplay />Your browser does not support the audio element.
+                </audio></td>
+
+            </tr>
+          </tbody>
+        </table>
+
+            <br></br>
+            <h2 id="Image to Audio Generation">
+              <font color="000093">Text-Guided Audio Super-Resolution</font>
+            </h2>
+            <!-- <p>The following three rows show unprocessed audio, super resolution result, and Groud truth audio, respectively.</p> -->
+            <div class = "table-container">
+            <table class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <th scope="col" width=260px>
+                    <font color="061E61">Violin</font>
+                  </th>
+                  <th scope="col" width=260px>
+                    <font color="061E61">Baby Crying</font>
+                  </th>
+                  <th scope="col" width=260px>
+                    <font color="061E61">Female Speech</font>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><img
+                      src="samples/4_super_resolution/super_resolution/low_resolution_png/YJQ4RalNSjJk_02 copy.png"
+                      width="90%"></th>
+                  <td><img src="samples/4_super_resolution/super_resolution/low_resolution_png/YniwgMbB6tpQ_01 copy.png"
+                      width="90%"></td>
+                  <td><img src="samples/4_super_resolution/super_resolution/low_resolution_png/YrE6BJ0Bo4w4_01 copy.png"
+                      width="90%"></td>
+                </tr>
+                <tr>
+                  <th scope="row"><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/low_resolution/YJQ4RalNSjJk_02 copy.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></th>
+                  <td><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/low_resolution/YniwgMbB6tpQ_01 copy.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/low_resolution/YrE6BJ0Bo4w4_01 copy.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+                <tr>
+                  <th scope="row"><img
+                      src="samples/4_super_resolution/super_resolution/high_resolution_png/YJQ4RalNSjJk_02.png"
+                      width="90%"></th>
+                  <td><img src="samples/4_super_resolution/super_resolution/high_resolution_png/YniwgMbB6tpQ_01.png"
+                      width="90%"></td>
+                  <td><img src="samples/4_super_resolution/super_resolution/high_resolution_png/YrE6BJ0Bo4w4_01.png"
+                      width="90%"></td>
+                </tr>
+                <tr>
+                  <th scope="row"><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/high_resolution/YJQ4RalNSjJk_02.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></th>
+                  <td><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/high_resolution/YniwgMbB6tpQ_01.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/high_resolution/YrE6BJ0Bo4w4_01.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+                <tr>
+                  <th scope="row"><img
+                      src="samples/4_super_resolution/super_resolution/ground_truth_png/YJQ4RalNSjJk_01.png"
+                      width="90%"></th>
+                  <td><img src="samples/4_super_resolution/super_resolution/ground_truth_png/YniwgMbB6tpQ_01.png"
+                      width="90%"></td>
+                  <td><img src="samples/4_super_resolution/super_resolution/ground_truth_png/YrE6BJ0Bo4w4_01.png"
+                      width="90%"></td>
+                </tr>
+                <tr>
+                  <th scope="row"><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/ground_truth/YJQ4RalNSjJk_01.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></th>
+                  <td><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/ground_truth/YniwgMbB6tpQ_01.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                  <td><audio controls="controls">
+                      <source src="samples/4_super_resolution/super_resolution/ground_truth/YrE6BJ0Bo4w4_01.wav"
+                        autoplay />Your browser does not support the audio element.
+                    </audio></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+            </p>
+
+            <!-- <table label="more_demos" class="table" align="center" style="table-layout: fixed;word-break:break-word">
+              <thead>
+                <tr>
+                  <th scope="col" width="33%">
+                    <font color="061E61">Label to sound generation</font>
+                  </th>
+                  <th scope="col" width="33%">
+                    <font color="061E61">Generate music with: "A music is made by []".</font>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+
+                    <video width="500" controls>
+                      <source src="Sound Effects.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+
+                  </td>
+                  <td>
+                    <video width="500" controls>
+                      <source src="music.mp4" type="video/mp4">
+                      Your browser does not support HTML video.
+                    </video>
+                  </td>
+                </tr>
+              </tbody>
+            </table> -->
+            <hr>
+            <h2 id="Acknowledgement">
+              <font color="000093">Acknowledgement</font>
+            </h2>
+            <!-- <div class="container"> -->
+              This research was partly supported by the British Broadcasting Corporation Research and Development~(BBC R\&D), Engineering and Physical Sciences Research Council (EPSRC) Grant EP/T019751/1 ``AI for Sound'', 
+              and a PhD scholarship from the Centre for Vision, Speech and Signal Processing (CVSSP), Faculty of Engineering and Physical Science (FEPS), University of Surrey. For the purpose of open access, 
+              the authors have applied a Creative Commons Attribution (CC BY) license to any Author Accepted Manuscript version arising. We would like to thank Tang Li, Ke Chen, Yusong Wu, and Jinhua Liang for their support and discussions.
+
+            <!-- </div> -->
+          </section>
+        </article>
+      </main>
+
+    </div>
+
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-139981676-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+    <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+      </script>
+
+
+
+
+</body>
+
+</html>
