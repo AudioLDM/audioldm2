@@ -186,7 +186,7 @@
                 To bring us closer to a unified perspective of audio generation, this paper proposes a framework that utilizes the same learning method for speech, music, and sound effect generation. 
                 Our framework introduces a generic representation of audio, which can be treated as a new "<i>language of audio</i>" and used as a proxy for audio generation. 
                 For any conditional input, we first translate it into the "<i>language of audio</i>" with a language model, followed by a model that performs audio synthesis with a latent diffusion model based on the audio language. 
-                The proposed framework naturally brings advantages such as a reusable self-supervised pretrained model and in-context learning abilities. 
+                The proposed framework naturally brings advantages such as a reusable self-supervised pretrained model and <a href="#gigaspeech">in-context learning abilities</a>. 
                 Experiments on the major benchmarks of text-to-audio (TTA), text-to-music (TTM), and text-to-speech (TTS) demonstrate new state-of-the-art or competitive performance to previous approaches. 
               </font>
             </p>
@@ -195,11 +195,10 @@
               <font color="000093">Note</font>
             </h2>
             <li>
-              <font color="061E61"> Not only an upgraded version of AudioLDM, AudioLDM2 is a novel and versatile audio generation framework that breaks the barrier 
-                and unifies the learning of audio, music, and speech generation. The proposed method is based on a universal representation of audio and combines both the advantages of the auto-regressive model and the latent diffusion model. </font>
+              <font color="061E61"> Not only an upgraded version of AudioLDM, AudioLDM 2 is a novel and versatile audio generation framework that breaks the barrier and unifies the learning of audio, music, and speech generation. The proposed method is based on a universal representation of audio and combines both the advantages of the auto-regressive model and the latent diffusion model. </font>
             </li>
             <li>
-              <font color="061E61"> AudioLDM2 achieves state-of-the-art performance in text-to-audio and text-to-music generation, while also delivering competitive results in text-to-speech generation, comparable to the current SoTA. </font>
+              <font color="061E61"> AudioLDM 2 achieves state-of-the-art performance in <a href="#section_1">text-to-audio</a> and <a href="#section_2">text-to-music</a> generation, while also delivering competitive results in <a href="#section_3">text-to-speech</a> generation, comparable to the current SoTA. </font>
             </li>
             <!-- <li>
               <font color="061E61"> AudioLDM enables zero-shot text-guided audio style-transfer, inpainting, and
@@ -730,7 +729,7 @@
             </div>
 
             <br></br>
-            <h2 id="Section 3">
+            <h2 id="section_3">
               <font color="000093">Section 3 Text-to-Speech Generation</font>
             </h2>
             <h3>LJSpeech Dataset</h3>
@@ -916,7 +915,7 @@
               </div>
             </div>
             <br></br>
-            <h3>GigaSpeech Dataset</h3>
+            <h3 id="gigaspeech">GigaSpeech Dataset</h3>
             <ul>
               <li>We demonstrate in-context learning with samples from GigaSpeech Dataset. </li>
               <li>The first 2.5 seconds are groundtruth (context for model), the speech after a short beep are generated speech (by AudioLDM 2).</li>
