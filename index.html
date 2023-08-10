@@ -116,8 +116,7 @@
         <article itemscope itemtype="https://schema.org/BlogPosting">
           <br></br>
           <h1 itemprop="headline" align="center">
-            <font color="000093">AudioLDM 2: A General Framework 
-              for Audio, Music, and Speech Generation
+            <font color="000093">AudioLDM 2: Learning Holistic Audio Generation with Self-supervised Pretraining
             </font>
           </h1>
           <br></br>
@@ -150,7 +149,7 @@
             <br>
             <div class="container">
               <center>
-                <p><a href="https://arxiv.org/abs/2301.12503">[Paper on ArXiv]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/haoheliu/audioldm2">[Code on GitHub]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/haoheliu/audioldm2">[HuggingFace Demo]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://discord.gg/b64SEmdf">[Discord Community]</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                <p><a href="https://arxiv.org/abs/2301.12503">[Paper on ArXiv (coming soon)]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/haoheliu/audioldm2">[Code on GitHub]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://huggingface.co/spaces/haoheliu/audioldm2-text2audio-text2music">[HuggingFace Demo]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://discord.gg/b64SEmdf">[Discord Community]</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
                 
               </center>
             </div>
@@ -181,13 +180,8 @@
               <font color="000093">Abstract</font>
             </h2>
             <p style="text-align: justify;">
-              <font color="061E61"> Although audio generation shares commonalities across different types of audio, such as speech, music, and sound effects, 
-                designing models for each type requires careful consideration of unique objectives and biases that can significantly differ from those of other types. 
-                To bring us closer to a unified perspective of audio generation, this paper proposes a framework that utilizes the same learning method for speech, music, and sound effect generation. 
-                Our framework introduces a generic representation of audio, which can be treated as a new "<i>language of audio</i>" and used as a proxy for audio generation. 
-                For any conditional input, we first translate it into the "<i>language of audio</i>" with a language model, followed by a model that performs audio synthesis with a latent diffusion model based on the audio language. 
-                The proposed framework naturally brings advantages such as a reusable self-supervised pretrained model and <a href="#gigaspeech">in-context learning abilities</a>. 
-                Experiments on the major benchmarks of text-to-audio (TTA), text-to-music (TTM), and text-to-speech (TTS) demonstrate new state-of-the-art or competitive performance to previous approaches. 
+              <font color="061E61"> 
+                Although audio generation shares commonalities across different types of audio, such as speech, music, and sound effects, designing models for each type requires careful consideration of specific objectives and biases that can significantly differ from those of other types. To bring us closer to a unified perspective of audio generation, this paper proposes a framework that utilizes the same learning method for speech, music, and sound effect generation. Our framework introduces a general representation of audio, called "<i>language of audio</i>" (LOA). Any audio can be translated into LOA based on AudioMAE, a self-supervised pre-trained representation learning model. In the generation process, we translate any modalities into LOA by using a GPT-2 model, and we perform self-supervised audio generation learning with a latent diffusion model conditioned on LOA. The proposed framework naturally brings advantages such as <a href="#gigaspeech">in-context learning abilities</a> and reusable self-supervised pretrained AudioMAE and latent diffusion models. Experiments on the major benchmarks of text-to-audio, text-to-music, and text-to-speech demonstrate new state-of-the-art or competitive performance to previous approaches.
               </font>
             </p>
 
@@ -195,7 +189,12 @@
               <font color="000093">Note</font>
             </h2>
             <li>
-              <font color="061E61"> Not only an upgraded version of AudioLDM, AudioLDM 2 is a novel and versatile audio generation framework that breaks the barrier and unifies the learning of audio, music, and speech generation. The proposed method is based on a universal representation of audio and combines both the advantages of the auto-regressive model and the latent diffusion model. </font>
+              <font color="061E61"> We propose a novel and versatile audio generation model that capable of performing conditional audio, music, and intelligible speech generation.  </font>
+            </li>
+            <li>
+              <font color="061E61">
+                The proposed method is based on a universal representation of audio, which enables large-scale self-supervised pretraining of the core latent diffusion model without audio annotation and helps to combine the advantages of both the auto-regressive and the latent diffusion model. 
+              </font>
             </li>
             <li>
               <font color="061E61"> AudioLDM 2 achieves state-of-the-art performance in <a href="#section_1">text-to-audio</a> and <a href="#section_2">text-to-music</a> generation, while also delivering competitive results in <a href="#section_3">text-to-speech</a> generation, comparable to the current SoTA. </font>
@@ -1213,7 +1212,7 @@
               This research was partly supported by the British Broadcasting Corporation Research and Development (BBC R&D), Engineering and Physical Sciences Research Council (EPSRC) Grant EP/T019751/1 "AI for Sound", and a PhD scholarship from the Centre for Vision, Speech and Signal Processing (CVSSP), Faculty of Engineering and Physical Science (FEPS), University of Surrey. For the purpose of open access, the authors have applied a Creative Commons Attribution (CC BY) license to any Author Accepted Manuscript version arising. We would like to thank Tang Li, Ke Chen, Yusong Wu, and Jinhua Liang for their support and discussions.
               <br></br>
               <hr>
-              Page updated on 31 July 2023
+              Page updated on 10 August 2023
               <br></br>
           </section>
         </article>
